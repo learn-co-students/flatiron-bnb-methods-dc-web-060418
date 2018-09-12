@@ -3,5 +3,16 @@ class User < ActiveRecord::Base
   has_many :reservations, :through => :listings
   has_many :trips, :foreign_key => 'guest_id', :class_name => "Reservation"
   has_many :reviews, :foreign_key => 'guest_id'
-  
+
+  has_many :guests, :through => :reservations
+  has_many :hosts, :through => :trips
+
+  def host_reviews
+    arr = []
+    listings.each do |listing|
+      arr.concat(listing.reviews)
+    end
+    arr
+  end
+
 end
